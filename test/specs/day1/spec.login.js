@@ -7,7 +7,7 @@ describe('Login', () => {
         await $('#password').setValue('SuperSecretPassword!');
         await $('button[type="submit"]').click();
 
-        await expect(await $('.subheader').getText()).toEqual('Welcome to the Secure Area. When you are done click logout below.');
+        await expect($('h2')).toHaveText('Secure Area');
     })
 })
 
