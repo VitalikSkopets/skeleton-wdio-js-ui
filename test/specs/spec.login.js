@@ -8,7 +8,7 @@ describe('Login', () => {
         await $('button[type="submit"]').click();
 
         await expect($('h2')).toHaveText('Secure Area');
-    })
+    });
 })
 
 
