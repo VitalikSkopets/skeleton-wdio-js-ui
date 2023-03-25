@@ -20,8 +20,7 @@ export const config = {
     connectionRetryCount: 3,
     services: ['chromedriver'],
     framework: 'mocha',
-    reporters: ['spec', 'dot',
-        ['allure', {outputDir: 'allure-results', disableWebdriverStepsReporting: true}]],
+    reporters: ['concise', ['allure', {outputDir: 'allure-results', disableWebdriverStepsReporting: true}]],
     mochaOpts: {
         ui: 'bdd',
         timeout: 120000
