@@ -1,7 +1,7 @@
 export const config = {
     runner: 'local',
     specs: [
-        './test/specs/**/spec.login.js'
+        './test/specs/**/spec.input.js'
     ],
     maxInstances: 10,
     capabilities: [{
