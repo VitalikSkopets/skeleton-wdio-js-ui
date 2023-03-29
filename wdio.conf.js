@@ -1,7 +1,7 @@
 export const config = {
     runner: 'local',
     specs: [
-        './test/specs/**/spec.login.js'
+        './test/specs/**/spec.number.js'
     ],
     maxInstances: 10,
     capabilities: [{
@@ -15,7 +15,7 @@ export const config = {
     logLevel: 'info',
     bail: 0,
     baseUrl: 'http://localhost',
-    waitforTimeout: 10000,
+    waitforTimeout: 3000,
     connectionRetryTimeout: 120000,
     connectionRetryCount: 3,
     services: ['chromedriver'],
