@@ -16,6 +16,6 @@
   "scripts": {
     "spec": "rimraf ./allure-results && wdio run ./wdio.conf.js",
     "report": "allure serve",
-    "wdio": "npm run spec && npm run report"
+    "wdio": "(npm run spec && npm run report) || npm run report"
   }
 }
