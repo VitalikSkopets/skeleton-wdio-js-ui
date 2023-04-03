@@ -15,7 +15,7 @@
   },
   "scripts": {
     "spec": "rimraf ./allure-results && wdio run ./wdio.conf.js",
-    "report": "allure serve",
+    "report": "allure serve ./allure-results --host localhost --port 55495",
     "wdio": "(npm run spec && npm run report) || npm run report"
   }
 }
