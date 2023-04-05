@@ -11,6 +11,6 @@ describe('WaitFor', () => {
         await $('button[onclick="swapCheckbox()"]').click();
 
         await $('#checkbox').waitForExist({timeout: 5000, reverse: true});
-        await expect($('#checkbox')).not.toBeDisplayed();
+        await expect($('#checkbox')).not.toBeExisting();
     });
 });
