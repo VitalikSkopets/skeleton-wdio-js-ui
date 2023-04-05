@@ -1,23 +1,69 @@
-describe('Login', () => {
-    it('Login with valid credentials', async () => {
-        await browser.url('https://the-internet.herokuapp.com/login');
+const url = 'https://the-internet.herokuapp.com/login';
+const loginButton = '#login .radius';
+const error = '#flash';
+const usernameInput = '#username';
+const passwordInput = '#password';
 
-        await $('#username').setValue('tomsmith');
-        await $('#password').setValue('SuperSecretPassword!');
-        await $('button[type="submit"]').click();
+const data = [
+    {
+        username: "",
+        password: "",
+        error: "Your username is invalid!\n×",
+        title: "Empty username and password"
+    },
+    {
+        username: "",
+        password: "SuperSecretPassword!",
+        error: "Your username is invalid!\n×",
+        title: "Empty username"
+    },
+    {
+        username: "tomsmith",
+        password: "",
+        error: "Your password is invalid!\n×",
+        title: "Empty password"
+    },
+    {
+        username: "JohnDoe",
+        password: "SuperSecretPassword!",
+        error: "Your username is invalid!\n×",
+        title: "Wrong username"
+    },
+    {
+        username: "tomsmith",
+        password: "1",
+        error: "Your password is invalid!\n×",
+        title: "Wrong password"
+    },
+    {
+        username: "JohnDoe",
+        password: "1",
+        error: "Your username is invalid!\n×",
+        title: "Wrong username and password"
+    }
+];
+
+describe('Login cases', () => {
+
+    it('Login with valid credentials', async () => {
+        await browser.url(url);
+
+        await $(usernameInput).setValue('tomsmith');
+        await $(passwordInput).setValue('SuperSecretPassword!');
+        await $(loginButton).click();
 
         await expect($('h2')).toHaveText('Secure Area');
     });
 
-    it('Login with invalid password', async () => {
-        await browser.url('https://the-internet.herokuapp.com/login');
+    for (const d of data) {
+        it(d.title, async () => {
+            await browser.url(url);
 
-        await $('#username').setValue('tomsmith');
-        await $('#password').setValue('wrongpassword');
-        await $('button[type="submit"]').click();
+            await $(usernameInput).setValue(d.username);
+            await $(passwordInput).setValue(d.password);
+            await $(loginButton).click();
 
-        await expect($('#flash')).toHaveText('Your password is invalid!\n×');
-    });
+            await expect($(error)).toHaveText(d.error);
+        });
+    }
 })
-
-
