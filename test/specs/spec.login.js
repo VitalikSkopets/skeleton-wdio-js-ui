@@ -1,69 +1,68 @@
-const url = 'https://the-internet.herokuapp.com/login';
-const loginButton = '#login .radius';
-const error = '#flash';
-const usernameInput = '#username';
-const passwordInput = '#password';
+import LoginPage from "../pages/login.page.js";
 
-const data = [
+const testData = [
     {
         username: "",
         password: "",
         error: "Your username is invalid!\n×",
-        title: "Empty username and password"
+        title: "empty username and password"
     },
     {
         username: "",
         password: "SuperSecretPassword!",
         error: "Your username is invalid!\n×",
-        title: "Empty username"
+        title: "empty username"
     },
     {
         username: "tomsmith",
         password: "",
         error: "Your password is invalid!\n×",
-        title: "Empty password"
+        title: "empty password"
     },
     {
         username: "JohnDoe",
         password: "SuperSecretPassword!",
         error: "Your username is invalid!\n×",
-        title: "Wrong username"
+        title: "wrong username"
     },
     {
         username: "tomsmith",
         password: "1",
         error: "Your password is invalid!\n×",
-        title: "Wrong password"
+        title: "wrong password"
     },
     {
         username: "JohnDoe",
         password: "1",
         error: "Your username is invalid!\n×",
-        title: "Wrong username and password"
+        title: "wrong username and password"
     }
 ];
 
-describe('Login cases', () => {
+describe('Login form', () => {
 
-    it('Login with valid credentials', async () => {
-        await browser.url(url);
+    const loginPage = new LoginPage();
 
-        await $(usernameInput).setValue('tomsmith');
-        await $(passwordInput).setValue('SuperSecretPassword!');
-        await $(loginButton).click();
-
-        await expect($('h2')).toHaveText('Secure Area');
+    beforeEach(async () => {
+        await loginPage.open();
     });
 
-    for (const d of data) {
-        it(d.title, async () => {
-            await browser.url(url);
+    it('should allow access with correct creds', async () => {
+        await loginPage.inputUsername.setValue('tomsmith');
+        await loginPage.inputPassword.setValue('SuperSecretPassword!');
+        await loginPage.buttonSubmit.click();
 
-            await $(usernameInput).setValue(d.username);
-            await $(passwordInput).setValue(d.password);
-            await $(loginButton).click();
+        await expect(loginPage.header).toHaveText('Secure Area');
+    });
 
-            await expect($(error)).toHaveText(d.error);
+    for (const data of testData) {
+        it(`should deny access with ${data.title}`, async () => {
+            await loginPage.inputUsername.setValue(data.username);
+            await loginPage.inputPassword.setValue(data.password);
+            await loginPage.buttonSubmit.click();
+
+            await expect(loginPage.header).toHaveText('Login Page');
+            await expect(loginPage.flash).toHaveText(data.error);
         });
     }
 })

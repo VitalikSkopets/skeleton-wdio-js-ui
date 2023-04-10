@@ -1,4 +1,4 @@
-import Page from "./page.class.js";
+import Page from "./base.page.js";
 
 export default class InputsPage extends Page {
     get inputNumber() {
