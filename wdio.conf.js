@@ -14,7 +14,7 @@ export const config = {
     }],
     logLevel: 'info',
     bail: 0,
-    baseUrl: 'http://localhost',
+    baseUrl: 'https://the-internet.herokuapp.com',
     waitforTimeout: 3000,
     connectionRetryTimeout: 120000,
     connectionRetryCount: 3,
@@ -24,6 +24,24 @@ export const config = {
     mochaOpts: {
         ui: 'bdd',
         timeout: 120000
+    },
+
+    before: async function () {
+        await browser.overwriteCommand('pause', function () {
+            throw 'Usage of browser.pause is not allowed!!!';
+        });
+
+
+        await browser.overwriteCommand('selectByVisibleText', async function (origFunction, value) {
+            if ((await this.getTagName()) !== 'select') {
+                if ((await this.getTagName()) === 'div') {
+                    await this.click();
+                    await $(`a=${value}`).click();
+                }
+            } else {
+                await origFunction(value);
+            }
+        }, true);
     },
 
     afterTest: async function (test, context, {error, result, duration, passed, retries}) {

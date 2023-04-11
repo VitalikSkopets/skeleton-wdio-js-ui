@@ -1,4 +1,4 @@
-import InputsPage from "../pages/inputs-page.class.js";
+import inputsPage from "../pages/inputs-page.class.js";
 
 const data = [
     {
@@ -23,22 +23,20 @@ const data = [
     },
 ];
 
-describe('Numeric value', () => {
+describe('Numeric', () => {
 
-    const inputsPage = new InputsPage();
-
-    it(`Check input field is displayed`, async () => {
-        await browser.url('https://the-internet.herokuapp.com/inputs');
+    it(`Input field is displayed`, async () => {
+        await inputsPage.open();
 
         await expect(inputsPage.inputNumber).toBeDisplayed();
     });
 
     for (const d of data) {
-        it(`Check ${d.title} (${d.actual})`, async () => {
-            await inputsPage.refresh();
+        it(`${d.title} (${d.actual})`, async () => {
+            await inputsPage.open();
 
             await inputsPage.inputNumber.setValue(d.actual);
             await expect(inputsPage.inputNumber).toHaveValue(d.expected.toString());
         });
     }
-})
+});

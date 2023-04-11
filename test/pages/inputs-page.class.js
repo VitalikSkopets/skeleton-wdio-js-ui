@@ -1,7 +1,13 @@
 import Page from "./page.class.js";
 
-export default class InputsPage extends Page {
+class InputsPage extends Page {
     get inputNumber() {
-        return $('div#content input');
+        return $('#content input');
+    }
+
+    async open() {
+        await super.open('inputs')
     }
 }
+
+export default new InputsPage();

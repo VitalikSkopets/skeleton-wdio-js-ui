@@ -1,69 +1,59 @@
-const url = 'https://the-internet.herokuapp.com/login';
-const loginButton = '#login .radius';
-const error = '#flash';
-const usernameInput = '#username';
-const passwordInput = '#password';
+import loginPage from "../pages/login-page.class.js";
 
 const data = [
     {
         username: "",
         password: "",
         error: "Your username is invalid!\n×",
-        title: "Empty username and password"
+        title: "empty username and password"
     },
     {
         username: "",
         password: "SuperSecretPassword!",
         error: "Your username is invalid!\n×",
-        title: "Empty username"
+        title: "empty username"
     },
     {
         username: "tomsmith",
         password: "",
         error: "Your password is invalid!\n×",
-        title: "Empty password"
+        title: "empty password"
     },
     {
         username: "JohnDoe",
         password: "SuperSecretPassword!",
         error: "Your username is invalid!\n×",
-        title: "Wrong username"
+        title: "wrong username"
     },
     {
         username: "tomsmith",
         password: "1",
         error: "Your password is invalid!\n×",
-        title: "Wrong password"
+        title: "wrong password"
     },
     {
         username: "JohnDoe",
         password: "1",
         error: "Your username is invalid!\n×",
-        title: "Wrong username and password"
+        title: "wrong username and password"
     }
 ];
 
-describe('Login cases', () => {
+describe('Login', () => {
 
     it('Login with valid credentials', async () => {
-        await browser.url(url);
+        await loginPage.open();
+        await loginPage.login('tomsmith', 'SuperSecretPassword!');
 
-        await $(usernameInput).setValue('tomsmith');
-        await $(passwordInput).setValue('SuperSecretPassword!');
-        await $(loginButton).click();
-
-        await expect($('h2')).toHaveText('Secure Area');
+        await expect(loginPage.textNotification).toHaveText('You logged into a secure area!\n×');
     });
 
     for (const d of data) {
-        it(d.title, async () => {
-            await browser.url(url);
+        it(`Login with ${d.title}`, async () => {
+            await loginPage.open();
+            await loginPage.login(d.username, d.password);
 
-            await $(usernameInput).setValue(d.username);
-            await $(passwordInput).setValue(d.password);
-            await $(loginButton).click();
-
-            await expect($(error)).toHaveText(d.error);
+            await expect(loginPage.textNotification).toHaveText(d.error);
         });
     }
-})
+});

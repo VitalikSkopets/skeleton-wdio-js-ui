@@ -1,16 +1,17 @@
-const testUrl = 'https://the-internet.herokuapp.com/dynamic_controls';
+import dynamicControlsPage from "../pages/dynamic-controls-page.class.js";
 
-describe('WaitFor', () => {
+describe('Wait for', () => {
     it('Checkbox is displayed ', async () => {
-        await browser.url(testUrl);
+        await dynamicControlsPage.open();
 
-        await expect($('#checkbox')).toBeDisplayed();
+        await expect(dynamicControlsPage.checkbox).toBeDisplayed();
     });
 
     it('Checkbox  doesn\'t exist', async () => {
-        await $('button[onclick="swapCheckbox()"]').click();
+        await dynamicControlsPage.open();
+        await dynamicControlsPage.buttonRemove.click();
 
-        await $('#checkbox').waitForExist({timeout: 5000, reverse: true});
-        await expect($('#checkbox')).not.toBeExisting();
+        await dynamicControlsPage.checkbox.waitForExist({timeout: 5000, reverse: true});
+        await expect(dynamicControlsPage.checkbox).not.toBeExisting();
     });
 });
