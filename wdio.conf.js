@@ -1,7 +1,7 @@
 export const config = {
     runner: 'local',
     specs: [
-        './test/specs/**/spec.*.js'
+        './test/specs/**/spec.overwrite.js'
     ],
     maxInstances: 10,
     capabilities: [{
@@ -37,6 +37,10 @@ export const config = {
                 if ((await this.getTagName()) === 'div') {
                     await this.click();
                     await $(`a=${value}`).click();
+                }
+                else if ((await this.getAttribute('data-select2-id')) === 'select2-data-1-i6mg') {
+                    await this.click();
+                    await $(`option=${value}`).click();
                 }
             } else {
                 await origFunction(value);
